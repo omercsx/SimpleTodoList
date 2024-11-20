@@ -4,9 +4,10 @@ This app has no storyboard. Made with UIKit.
 
 ## Tasks
 ### 1. Create a UI with a few todos and a button.
-  1. Created the project without the storyboard.
-  2. Researched what is the anchor and auto-layout. (not detailed yet)
-  3. Researched MVC and MVVM. Which one to use in the app? - Decided MVVM
-  4. Created Model (Todo)
-  5. Created ViewModel - The ViewModel will manage the data and provide it to the view controller.
+  1. Learned to create a project without a storyboard 
+  2. Learned Layout with anchors
+
+<img src="https://github.com/user-attachments/assets/c5501614-dc3c-4677-af5c-309bc67b14a3" width="250px" height="400px" />
+
+### 2. blabla
 
