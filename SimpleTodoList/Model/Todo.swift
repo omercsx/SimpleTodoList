@@ -9,5 +9,7 @@ import Foundation
 
 struct Todo {
     let title: String
+    let description: String
     var isCompleted: Bool
+    let createdAt: Date
 }

@@ -23,6 +23,8 @@ class HomeViewController: UIViewController {
         setupUI()
         setupTableView()
         setupAddButton()
+
+        navigationItem.backButtonTitle = "Back"
     }
 
     private func setupUI() {
@@ -78,6 +80,22 @@ class HomeViewController: UIViewController {
 }
 
 extension HomeViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // Getting the selected todo
+        let selectedTodo = viewModel.todos[indexPath.row]
+
+        // Initialize DetailViewController
+        let detailVC = DetailViewController()
+
+        // Pass the selected todo to DetailViewController
+        detailVC.todo = selectedTodo
+
+        // Navigate to DetailVC
+        navigationController?.pushViewController(detailVC, animated: true)
+
+        // Deselect the row
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 }
 
 extension HomeViewController: UITableViewDataSource {
