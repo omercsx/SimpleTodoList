@@ -11,4 +11,9 @@ struct K {
     struct TableView {
         static let cellIdentifier = "TodoCell"
     }
+
+    struct UserDefaults {
+        static let email = "email"
+        static let name = "name"
+    }
 }

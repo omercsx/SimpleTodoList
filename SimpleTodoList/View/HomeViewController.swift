@@ -8,10 +8,13 @@
 import UIKit
 
 class HomeViewController: UIViewController {
+    var user: User!
+
     // MARK: - Properties
 
-    private let titleLabel = UILabel()
+    private let usernameLabel = UILabel()
     private let viewModel = TodoViewModel()
+    private let userViewModel = AuthViewModel()
     private let tableView = UITableView()
     private let addButton = UIButton(type: .system)
 
@@ -23,22 +26,34 @@ class HomeViewController: UIViewController {
         setupUI()
         setupTableView()
         setupAddButton()
+        setupNavigationBar()
 
-        navigationItem.backButtonTitle = "Back"
+        // Delete the back button
+        navigationItem.hidesBackButton = true
+    }
+
+    private func setupNavigationBar() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Logout", style: .done, target: self, action: #selector(logoutButtonTapped))
+    }
+
+    @objc func logoutButtonTapped() {
+        userViewModel.logout()
+        navigationController?.popToRootViewController(animated: true)
     }
 
     private func setupUI() {
         view.backgroundColor = .systemBackground
 
-        view.addSubview(titleLabel)
+        view.addSubview(usernameLabel)
 
-        titleLabel.text = K.appName
-        titleLabel.font = UIFont.systemFont(ofSize: 32)
+        usernameLabel.text = "Welcome back \(user.name)"
+        usernameLabel.font = UIFont.systemFont(ofSize: 24)
 
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        usernameLabel.translatesAutoresizingMaskIntoConstraints = false
+
         NSLayoutConstraint.activate([
-            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            usernameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            usernameLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
 
         ])
     }
@@ -71,7 +86,7 @@ class HomeViewController: UIViewController {
         // Set constraints
         tableView.translatesAutoresizingMaskIntoConstraints = false // TODO: Ask this
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 32),
+            tableView.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 32),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -96),
