@@ -20,7 +20,11 @@ This app has no storyboard. Made with UIKit.
 https://github.com/user-attachments/assets/15b3cc77-9194-4b02-91a7-a8a6eae223a8
 
 ### <h3 id="task3">3. Create an authentication page</h3>
-  1. Github branching 
+  1. Git branching
+  2. UserDefaults
+  3. @objc and #selector
 
+https://omercsx.s3.ca-central-1.amazonaws.com/demos/task3.mp4
 
+<img src="https://omercsx.s3.ca-central-1.amazonaws.com/demos/task3.mp4" width="250px" height="400px" />
 
