@@ -8,39 +8,55 @@
 import UIKit
 
 class AuthViewController: UIViewController {
-    let viewModel = AuthViewModel()
     let emailTextField = UITextField()
     let passwordTextField = UITextField()
     let loginButton = UIButton(type: .system)
     let emailLabel = UILabel()
     let passwordLabel = UILabel()
-
+    
+    private var presenter: LoginPresenterProtocol
+    
+    
+    init(presenter: LoginPresenterProtocol) {
+        self.presenter = presenter
+        super.init(nibName: nil, bundle: nil)
+        
+        self.presenter.delegate = self
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         setupUI()
 
-        if viewModel.currentUser()?.email != nil {
-            let homeVC = HomeViewController()
-            homeVC.user = viewModel.currentUser()
-            navigationController?.pushViewController(homeVC, animated: true)
-        }
+        //TODO: Impliment later
+//        if viewModel.currentUser()?.email != nil {
+//            let homeVC = HomeViewController()
+//            homeVC.user = viewModel.currentUser()
+//            navigationController?.pushViewController(homeVC, animated: true)
+//        }
     }
 
     @objc private func loginButtonTapped() {
         guard let email = emailTextField.text, let password = passwordTextField.text else { return }
-        let isLoginSuccessful = viewModel.login(email: email, password: password)
+        
+        presenter.login(email: email, password: password)
+//        let isLoginSuccessful = viewModel.login(email: email, password: password)
 
-        if isLoginSuccessful {
-            let homeVC = HomeViewController()
-            homeVC.user = viewModel.currentUser()
-            navigationController?.pushViewController(homeVC, animated: true)
-        } else {
-            let alert = UIAlertController(title: "Login Failed", message: "Please check your email and password", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            present(alert, animated: true, completion: nil)
-        }
+//        if isLoginSuccessful {
+//            let homeVC = HomeViewController()
+//            homeVC.user = viewModel.currentUser()
+//            navigationController?.pushViewController(homeVC, animated: true)
+//        } else {
+//            let alert = UIAlertController(title: "Login Failed", message: "Please check your email and password", preferredStyle: .alert)
+//            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+//            present(alert, animated: true, completion: nil)
+//        }
     }
 
     private func setupUI() {
@@ -84,5 +100,19 @@ class AuthViewController: UIViewController {
             loginButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 32),
             loginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
         ])
+    }
+}
+
+
+extension AuthViewController: LoginPresenterViewDelegateProtocol {
+    func attemptLoginResult(result: LoginResult) {
+        switch result {
+        case .fail(let reason):
+            let alert = UIAlertController(title: "Login Failed", message: "Please check your email and password", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
+        case .success:
+            () //do nothing
+        }
     }
 }
