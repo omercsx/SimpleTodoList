@@ -13,18 +13,17 @@ protocol MainRouterProtocol {
     func logOut()
 }
 
-
 class MainRouter: MainRouterProtocol {
-    
     private let appRoot: UIWindow
     private let navigationController: UINavigationController
     
-    init(appRoot: UIWindow ) {
+    init(appRoot: UIWindow) {
         self.appRoot = appRoot
         self.navigationController = UINavigationController()
         self.appRoot.rootViewController = navigationController
         self.appRoot.makeKeyAndVisible()
     }
+    
     func start() {
         let presenter = LoginPresenter(router: self)
         let vc = presenter.getViewController()
@@ -32,13 +31,19 @@ class MainRouter: MainRouterProtocol {
     }
     
     func loginSuccess() {
-        //Impliment login here
-        print("Nav to login")
+        print("Navigating to Todo screen")
+        
+        let todoViewController = TodoViewController()
+        let interactor = TodoInteractor()
+        let presenter = TodoPresenter(view: todoViewController, interactor: interactor, router: self)
+        todoViewController.presenter = presenter
+        interactor.presenter = presenter
+        
+        navigationController.pushViewController(todoViewController, animated: true)
     }
     
-    
-    func logOut()  {
-        //Implimet logout here
-        print("Impliment logout")
+    func logOut() {
+        print("Implement logout")
+        navigationController.popToRootViewController(animated: true)
     }
 }
