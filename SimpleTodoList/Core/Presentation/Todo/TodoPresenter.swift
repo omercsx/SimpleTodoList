@@ -27,4 +27,9 @@ extension TodoPresenter: TodoViewToPresenterProtocol {
     func getTodos() {
         interactor?.getTodos()
     }
+    
+    func didSelectTodo(at index: Int) {
+        guard let todo = interactor?.getTodo(at: index) else { return }
+        router?.presentDetailTodo(with: todo)
+    }
 }

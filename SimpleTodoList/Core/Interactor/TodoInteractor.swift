@@ -8,6 +8,7 @@
 import Foundation
 
 class TodoInteractor: TodoPresenterToInteractorProtocol {
+    
     var presenter: TodoInteractorToPresenterProtocol?
     
     var todos: [Todo] = []
@@ -25,4 +26,9 @@ class TodoInteractor: TodoPresenterToInteractorProtocol {
     func presenterDidGetTodos(todos: [Todo]) {
         presenter?.didGetTodos(todos: todos)
     }
+    
+    func getTodo(at index: Int) -> Todo {
+        return todos[index]
+    }
+    
 }

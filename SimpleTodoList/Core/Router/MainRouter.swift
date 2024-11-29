@@ -11,6 +11,7 @@ protocol MainRouterProtocol {
     func start()
     func loginSuccess()
     func logOut()
+    func presentDetailTodo(with todo: Todo)
 }
 
 class MainRouter: MainRouterProtocol {
@@ -45,5 +46,10 @@ class MainRouter: MainRouterProtocol {
     func logOut() {
         print("Implement logout")
         navigationController.popToRootViewController(animated: true)
+    }
+    
+    func presentDetailTodo(with todo: Todo) {
+        let detailTodoViewController = DetailTodoRouter.createModule(with: todo)
+        navigationController.pushViewController(detailTodoViewController, animated: true)
     }
 }

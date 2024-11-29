@@ -7,10 +7,20 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, DetailTodoPresenterToViewProtocol {
+    func showTodoDetails(todo: Todo) {
+        setupUI(todo: todo)
+    }
+    
+    func showUpdateResult(success: Bool) {
+        let message = success ? "Todo updated successfully." : "Failed to update Todo."
+        let alert = UIAlertController(title: "Update Status", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
+    }
+    
     // MARK: - Properties
-
-    var todo: Todo?
+    var presenter: DetailTodoViewToPresenterProtocol?
 
     // MARK: - UI Elements
 
@@ -28,14 +38,14 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        setupUI()
-        navigationItem.title = todo?.title
+        presenter?.viewDidLoad()
+    
+    
     }
 
     // MARK: - Helpers
 
-    private func setupUI() {
+    private func setupUI(todo: Todo) {
         view.backgroundColor = .systemBackground
 //
 //        // Create Vertical Stack for title label and titleTextField
@@ -89,9 +99,9 @@ class DetailViewController: UIViewController {
         isCompletedLabel.textColor = .gray
         dateTitleLabel.textColor = .lightGray
 
-        titleTextField.text = todo?.title
-        descriptionTextField.text = todo?.description
-        isCompletedCheckBox.isOn = todo?.isCompleted ?? false
-        dateLabel.text = todo?.createdAt.formatted()
+        titleTextField.text = todo.title
+        descriptionTextField.text = todo.description
+        isCompletedCheckBox.isOn = todo.isCompleted
+        dateLabel.text = todo.createdAt.formatted()
     }
 }
